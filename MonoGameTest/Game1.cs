@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameTest.Logging;
 
 namespace MonoGameTest
 {
@@ -11,17 +13,17 @@ namespace MonoGameTest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private Guy _guy;
+        private Guy.Guy _guy;
 
         public Game1()
         {
+            Content.RootDirectory = "Content";
             graphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = 1280,
                 PreferredBackBufferHeight = 720
             };
             Window.AllowUserResizing = true;
-            Content.RootDirectory = "Content";
         }
 
         /// <summary>
@@ -33,6 +35,7 @@ namespace MonoGameTest
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            //IsFixedTimeStep = false;
             base.Initialize();
         }
 
@@ -46,11 +49,15 @@ namespace MonoGameTest
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            //
             var cb = Window.ClientBounds;
-            _guy = new Guy(
+            _guy = new Guy.Guy(
                 new Vector2(cb.Width/2, cb.Height), 
-                Content.Load<Texture2D>("Sprite-Running"));
+                Content.Load<Texture2D>("Sprite-Idle"),
+                Content.Load<Texture2D>("Sprite-Jumping"),
+                Content.Load<Texture2D>("Sprite-Running"),
+                new DebugLogger());
+            //
         }
 
         /// <summary>
@@ -69,10 +76,16 @@ namespace MonoGameTest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
                 Exit();
+            }
 
-            // TODO: Add your update logic here
+            //
+            _guy.HandleInput(Keyboard.GetState());
+            _guy.Update(gameTime);
+            //
 
             base.Update(gameTime);
         }
