@@ -16,7 +16,7 @@ namespace MonoGameTest.Guy.States
         public void Exit(Guy guy) { }
         public void Draw(Guy guy, SpriteBatch spriteBatch, GameTime gameTime, SpriteEffects spriteEffects)
         {
-            _sprite.Draw(spriteBatch, guy.Position, spriteEffects);
+            _sprite.Draw(spriteBatch, guy.Physics.Position, spriteEffects);
         }
 
         public IGuyState HandleInput(Guy guy, KeyboardState keyboardState)

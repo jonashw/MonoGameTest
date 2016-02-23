@@ -15,29 +15,36 @@ namespace MonoGameTest.Guy.States
 
         public void Enter(Guy guy)
         {
-            guy.Velocity.Y = -22;
+            guy.Physics.Velocity.Y = -22;
         }
         public void Exit(Guy guy) { }
 
         public void Draw(Guy guy, SpriteBatch spriteBatch, GameTime gameTime, SpriteEffects spriteEffects)
         {
-            _sprite.Draw(spriteBatch, guy.Position, spriteEffects);
+            _sprite.Draw(spriteBatch, guy.Physics.Position, spriteEffects);
         }
 
         public IGuyState HandleInput(Guy guy, KeyboardState keyboardState)
         {
             if (keyboardState.IsKeyDown(Keys.Down))
             {
-                return guy.States.Idle;
+                //return guy.States.Idle;
             }
             return null;
         }
 
         public IGuyState Update(Guy guy)
         {
-            if (guy.Position.Y >= 720)
+            if (guy.Physics.OnGround)
             {
-                return guy.States.Idle;
+                if (guy.Physics.Moving)
+                {
+                    return guy.States.Running;
+                }
+                else
+                {
+                    return guy.States.Idle;
+                }
             }
             return null;
         }
