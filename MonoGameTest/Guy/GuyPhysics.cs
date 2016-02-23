@@ -26,6 +26,7 @@ namespace MonoGameTest.Guy
             Position.X = Position.X + _velocity.X;
             Position.Y = Math.Min(Position.Y + _velocity.Y, Guy.ZeroAltitude); //Keep Guy above ground.
             _logger.Log(string.Format("Position.X = {0}; Position.Y = {1}", Position.X, Position.Y));
+            _logger.Log(string.Format("Velocity.X = {0}; Velocity.Y = {1}", _velocity.X, _velocity.Y));
 
             if (Position.Y >= Guy.ZeroAltitude)
             {
@@ -46,6 +47,7 @@ namespace MonoGameTest.Guy
         }
 
         private const float DragCoefficient = 0.1f;
+        private const float AccelerationCoefficient = 2 * DragCoefficient;
         public void Drag()
         {
             //Apply drag
@@ -63,17 +65,30 @@ namespace MonoGameTest.Guy
             }
         }
 
+        public void StepAccelerate(int maxVelocity)
+        {
+            if (maxVelocity < 0)
+            {
+                if (maxVelocity < _velocity.X)
+                {
+                    _velocity.X -= AccelerationCoefficient;
+                }
+            }
+            else if(maxVelocity > 0)
+            {
+                if (_velocity.X < maxVelocity)
+                {
+                    _velocity.X += AccelerationCoefficient;
+                }
+            }
+        }
+
         public bool IsMovingHorizontally
         {
             get
             {
                 return Math.Abs(_velocity.X) > DragCoefficient;
             }
-        }
-
-        public void SetXVelocity(int v)
-        {
-            _velocity.X = v;
         }
 
         public void SetYVelocity(int v)

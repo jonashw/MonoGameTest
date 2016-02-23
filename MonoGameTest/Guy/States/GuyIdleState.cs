@@ -19,7 +19,7 @@ namespace MonoGameTest.Guy.States
             _sprite.Draw(spriteBatch, guy.Physics.Position, spriteEffects);
         }
 
-        public IGuyState HandleInput(Guy guy, KeyboardState keyboardState)
+        public IGuyState Update(Guy guy, KeyboardState keyboardState)
         {
             if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.Space))
             {
@@ -35,11 +35,6 @@ namespace MonoGameTest.Guy.States
                 guy.FacingRight = false;
                 return guy.States.Running;
             }
-            return null;
-        }
-
-        public IGuyState Update(Guy guy)
-        {
             return null;
         }
     }

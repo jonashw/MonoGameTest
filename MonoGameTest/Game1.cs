@@ -83,8 +83,7 @@ namespace MonoGameTest
             }
 
             //
-            _guy.HandleInput(Keyboard.GetState());
-            _guy.Update(gameTime);
+            _guy.Update(gameTime, Keyboard.GetState());
             //
 
             base.Update(gameTime);

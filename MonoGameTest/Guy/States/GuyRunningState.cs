@@ -17,17 +17,20 @@ namespace MonoGameTest.Guy.States
         public void Enter(Guy guy)
         {
             _animation.Reset();
-            runFullSpeed(guy);
+            impulse(guy);
         }
 
-        public void Exit(Guy guy) { }
+        public void Exit(Guy guy)
+        {
+            guy.Physics.Drag(); //This will kill any lingering horizontal movement.
+        }
 
         public void Draw(Guy guy, SpriteBatch spriteBatch, GameTime gameTime, SpriteEffects spriteEffects)
         {
             _animation.Draw(spriteBatch, guy.Physics.Position, gameTime, spriteEffects);
         }
 
-        public IGuyState HandleInput(Guy guy, KeyboardState keyboardState)
+        public IGuyState Update(Guy guy, KeyboardState keyboardState)
         {
             if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.Space))
             {
@@ -36,24 +39,14 @@ namespace MonoGameTest.Guy.States
             if (keyboardState.IsKeyDown(Keys.Right))
             {
                 guy.FacingRight = true;
-                runFullSpeed(guy);
+                impulse(guy);
             } 
-            if(keyboardState.IsKeyDown(Keys.Left))
+            else if (keyboardState.IsKeyDown(Keys.Left))
             {
                 guy.FacingRight = false;
-                runFullSpeed(guy);
+                impulse(guy);
             }
-            return null;
-        }
-
-        private static void runFullSpeed(Guy guy)
-        {
-            guy.Physics.SetXVelocity(guy.FacingRight ? RunningSpeed : -RunningSpeed);
-        }
-
-        public IGuyState Update(Guy guy)
-        {
-            if (guy.Physics.IsMovingHorizontally)
+            else if (guy.Physics.IsMovingHorizontally)
             {
                 guy.Physics.Drag();
             }
@@ -62,6 +55,11 @@ namespace MonoGameTest.Guy.States
                 return guy.States.Idle;
             }
             return null;
+        }
+
+        private static void impulse(Guy guy)
+        {
+            guy.Physics.StepAccelerate(guy.FacingRight ? RunningSpeed : -RunningSpeed);
         }
     }
 }

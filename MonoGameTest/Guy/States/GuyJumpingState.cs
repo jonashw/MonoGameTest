@@ -25,16 +25,7 @@ namespace MonoGameTest.Guy.States
             _sprite.Draw(spriteBatch, guy.Physics.Position, spriteEffects);
         }
 
-        public IGuyState HandleInput(Guy guy, KeyboardState keyboardState)
-        {
-            if (keyboardState.IsKeyDown(Keys.Down))
-            {
-                //return guy.States.Idle;
-            }
-            return null;
-        }
-
-        public IGuyState Update(Guy guy)
+        public IGuyState Update(Guy guy, KeyboardState keyboardState)
         {
             if (!guy.Physics.IsOnGround)
             {

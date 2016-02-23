@@ -39,21 +39,10 @@ namespace MonoGameTest.Guy
                 FacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
         }
 
-        public void HandleInput(KeyboardState keyboardState)
+        public void Update(GameTime gameTime, KeyboardState keyboardState)
         {
-            maybeTransitionToNewState(
-                _state.HandleInput(this, keyboardState));
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            maybeTransitionToNewState(
-                _state.Update(this));
+            var maybeNewState = _state.Update(this, keyboardState);
             Physics.Update();
-        }
-
-        private void maybeTransitionToNewState(IGuyState maybeNewState)
-        {
             if (maybeNewState == null)
             {
                 return;
