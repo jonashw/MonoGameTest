@@ -10,11 +10,11 @@ namespace MonoGameTest.Guy
     {
         public readonly GuyPhysics Physics;
         internal readonly GuyStates States;
-        public bool FacingRight = true;
+        public XDirection Facing = XDirection.Right;
         private IGuyState _state;
         private readonly ILogger _logger;
 
-        public Guy(Vector2 position, Texture2D idleTexture, Texture2D jumpingTexture, Texture2D runningTexture, Texture2D duckingTexture, ILogger logger)
+        public Guy(Vector2 position, Texture2D idleTexture, Texture2D jumpingTexture, Texture2D runningTexture, Texture2D slidingTexture, Texture2D duckingTexture, ILogger logger)
         {
             const int spriteWidth = 500;
             const int spriteHeight = 667;
@@ -22,7 +22,9 @@ namespace MonoGameTest.Guy
             Physics = new GuyPhysics(position, new Vector2(0,0), (int) (spriteWidth*scale), (int) (spriteHeight*scale), logger);
             States = new GuyStates(
                 new GuyIdleState(new EasySprite(idleTexture, spriteWidth, spriteHeight, scale)),
-                new GuyRunningState(new EasySpriteAnimation(runningTexture, spriteWidth, spriteHeight, 6, 2, 0.08f, scale)),
+                new GuyRunningState(
+                    new EasySpriteAnimation(runningTexture, spriteWidth, spriteHeight, 6, 2, 0.08f, scale),
+                    new EasySprite(slidingTexture, spriteWidth, spriteHeight, scale)),
                 new GuyJumpingState(new EasySprite(jumpingTexture, spriteWidth, spriteHeight, scale)),
                 new GuyDuckingState(new EasySprite(duckingTexture, spriteWidth, spriteHeight, scale)));
             _state = States.Idle;
@@ -37,7 +39,7 @@ namespace MonoGameTest.Guy
                 this,
                 spriteBatch,
                 gameTime,
-                FacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
+                Facing == XDirection.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
         }
 
         public void Update(GameTime gameTime, KeyboardState keyboardState)

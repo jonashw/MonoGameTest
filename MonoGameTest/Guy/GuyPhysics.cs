@@ -46,7 +46,7 @@ namespace MonoGameTest.Guy
             get { return Position.Y >= Guy.ZeroAltitude; }
         }
 
-        private const float DecelerationStep = 0.1f;
+        private const float DecelerationStep = 0.3f;
         private const float AccelerationStep = 2 * DecelerationStep;
         public void StepDecelerate()
         {
@@ -87,6 +87,20 @@ namespace MonoGameTest.Guy
             get
             {
                 return Math.Abs(_velocity.X) > 0;
+            }
+        }
+
+        public XDirection? HorizontalMovementDirection
+        {
+            get
+            {
+                if (!IsMovingHorizontally)
+                {
+                    return null;
+                }
+                return _velocity.X > 0
+                    ? XDirection.Right
+                    : XDirection.Left;
             }
         }
 

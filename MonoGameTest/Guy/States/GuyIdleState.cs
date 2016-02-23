@@ -31,12 +31,12 @@ namespace MonoGameTest.Guy.States
             }
             if (keyboardState.IsKeyDown(Keys.Right))
             {
-                guy.FacingRight = true;
+                guy.Facing = XDirection.Right;
                 return guy.States.Running;
             } 
             if(keyboardState.IsKeyDown(Keys.Left))
             {
-                guy.FacingRight = false;
+                guy.Facing = XDirection.Left;
                 return guy.States.Running;
             }
             return null;

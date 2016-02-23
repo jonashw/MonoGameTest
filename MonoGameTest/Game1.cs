@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameTest.Logging;
@@ -56,6 +55,7 @@ namespace MonoGameTest
                 Content.Load<Texture2D>("Sprite-Idle"),
                 Content.Load<Texture2D>("Sprite-Jumping"),
                 Content.Load<Texture2D>("Sprite-Running"),
+                Content.Load<Texture2D>("Sprite-Sliding"),
                 Content.Load<Texture2D>("Sprite-Ducking"),
                 new DebugLogger());
             //

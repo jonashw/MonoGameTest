@@ -7,16 +7,18 @@ namespace MonoGameTest.Guy.States
     internal class GuyRunningState : IGuyState
     {
         public string Name { get { return "Running"; } }
-        private readonly EasySpriteAnimation _animation;
-        private const int RunningSpeed = 5;
-        public GuyRunningState(EasySpriteAnimation animation)
+        private readonly EasySpriteAnimation _runningAnimation;
+        private readonly EasySprite _slidingSprite;
+        private const int RunningSpeed = 10;
+        public GuyRunningState(EasySpriteAnimation runningAnimation, EasySprite slidingSprite)
         {
-            _animation = animation;
+            _runningAnimation = runningAnimation;
+            _slidingSprite = slidingSprite;
         }
 
         public void Enter(Guy guy)
         {
-            _animation.Reset();
+            _runningAnimation.Reset();
             impulse(guy);
         }
 
@@ -27,7 +29,15 @@ namespace MonoGameTest.Guy.States
 
         public void Draw(Guy guy, SpriteBatch spriteBatch, GameTime gameTime, SpriteEffects spriteEffects)
         {
-            _animation.Draw(spriteBatch, guy.Physics.Position, gameTime, spriteEffects);
+            var maybeXDirection = guy.Physics.HorizontalMovementDirection;
+            if (maybeXDirection.HasValue && maybeXDirection.Value == guy.Facing)
+            {
+                _runningAnimation.Draw(spriteBatch, guy.Physics.Position, gameTime, spriteEffects);
+            }
+            else
+            {
+                _slidingSprite.Draw(spriteBatch, guy.Physics.Position, spriteEffects);
+            }
         }
 
         public IGuyState Update(Guy guy, KeyboardState keyboardState)
@@ -42,12 +52,12 @@ namespace MonoGameTest.Guy.States
             }
             if (keyboardState.IsKeyDown(Keys.Right))
             {
-                guy.FacingRight = true;
+                guy.Facing = XDirection.Right;
                 impulse(guy);
             } 
             else if (keyboardState.IsKeyDown(Keys.Left))
             {
-                guy.FacingRight = false;
+                guy.Facing = XDirection.Left;
                 impulse(guy);
             }
             else if (guy.Physics.IsMovingHorizontally)
@@ -63,7 +73,7 @@ namespace MonoGameTest.Guy.States
 
         private static void impulse(Guy guy)
         {
-            guy.Physics.StepAccelerate(guy.FacingRight ? RunningSpeed : -RunningSpeed);
+            guy.Physics.StepAccelerate(guy.Facing == XDirection.Right ? RunningSpeed : -RunningSpeed);
         }
     }
 }
