@@ -28,8 +28,16 @@ namespace MonoGameTest.Guy.States
 
         public IGuyState Update(Guy guy, KeyboardState keyboardState)
         {
-            return keyboardState.IsKeyDown(Keys.Down)
-                ? null
+            if (guy.Physics.IsMovingHorizontally)
+            {
+                guy.Physics.StepDecelerate();
+            }
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                return null;
+            }
+            return guy.Physics.IsMovingHorizontally
+                ? (IGuyState) guy.States.Running
                 : guy.States.Idle;
         }
     }

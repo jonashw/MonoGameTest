@@ -46,18 +46,17 @@ namespace MonoGameTest.Guy
             get { return Position.Y >= Guy.ZeroAltitude; }
         }
 
-        private const float DragCoefficient = 0.1f;
-        private const float AccelerationCoefficient = 2 * DragCoefficient;
-        public void Drag()
+        private const float DecelerationStep = 0.1f;
+        private const float AccelerationStep = 2 * DecelerationStep;
+        public void StepDecelerate()
         {
-            //Apply drag
-            if (_velocity.X < -DragCoefficient)
+            if (_velocity.X < -DecelerationStep)
             {
-                _velocity.X += DragCoefficient;
+                _velocity.X += DecelerationStep;
             }
-            else if (_velocity.X > DragCoefficient)
+            else if (_velocity.X > DecelerationStep)
             {
-                _velocity.X -= DragCoefficient;
+                _velocity.X -= DecelerationStep;
             }
             else
             {
@@ -71,14 +70,14 @@ namespace MonoGameTest.Guy
             {
                 if (maxVelocity < _velocity.X)
                 {
-                    _velocity.X -= AccelerationCoefficient;
+                    _velocity.X -= AccelerationStep;
                 }
             }
             else if(maxVelocity > 0)
             {
                 if (_velocity.X < maxVelocity)
                 {
-                    _velocity.X += AccelerationCoefficient;
+                    _velocity.X += AccelerationStep;
                 }
             }
         }
@@ -87,7 +86,7 @@ namespace MonoGameTest.Guy
         {
             get
             {
-                return Math.Abs(_velocity.X) > DragCoefficient;
+                return Math.Abs(_velocity.X) > 0;
             }
         }
 

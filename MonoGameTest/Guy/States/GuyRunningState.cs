@@ -22,7 +22,7 @@ namespace MonoGameTest.Guy.States
 
         public void Exit(Guy guy)
         {
-            guy.Physics.Drag(); //This will kill any lingering horizontal movement.
+            guy.Physics.StepDecelerate(); //This will kill any lingering horizontal movement.
         }
 
         public void Draw(Guy guy, SpriteBatch spriteBatch, GameTime gameTime, SpriteEffects spriteEffects)
@@ -32,6 +32,10 @@ namespace MonoGameTest.Guy.States
 
         public IGuyState Update(Guy guy, KeyboardState keyboardState)
         {
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                return guy.States.Ducking;
+            }
             if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.Space))
             {
                 return guy.States.Jumping;
@@ -48,7 +52,7 @@ namespace MonoGameTest.Guy.States
             }
             else if (guy.Physics.IsMovingHorizontally)
             {
-                guy.Physics.Drag();
+                guy.Physics.StepDecelerate();
             }
             else
             {
