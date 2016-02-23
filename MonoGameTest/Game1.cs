@@ -56,6 +56,7 @@ namespace MonoGameTest
                 Content.Load<Texture2D>("Sprite-Idle"),
                 Content.Load<Texture2D>("Sprite-Jumping"),
                 Content.Load<Texture2D>("Sprite-Running"),
+                Content.Load<Texture2D>("Sprite-Ducking"),
                 new DebugLogger());
             //
         }

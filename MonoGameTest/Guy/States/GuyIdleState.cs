@@ -25,6 +25,10 @@ namespace MonoGameTest.Guy.States
             {
                 return guy.States.Jumping;
             }
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                return guy.States.Ducking;
+            }
             if (keyboardState.IsKeyDown(Keys.Right))
             {
                 guy.FacingRight = true;

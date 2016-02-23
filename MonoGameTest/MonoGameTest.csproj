@@ -58,6 +58,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Guy\Guy.cs" />
     <Compile Include="Guy\GuyPhysics.cs" />
+    <Compile Include="Guy\States\GuyDuckingState.cs" />
     <Compile Include="Guy\States\GuyIdleState.cs" />
     <Compile Include="Guy\States\GuyJumpingState.cs" />
     <Compile Include="Guy\States\GuyRunningState.cs" />

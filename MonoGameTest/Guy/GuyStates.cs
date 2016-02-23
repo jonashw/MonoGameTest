@@ -11,12 +11,14 @@ namespace MonoGameTest.Guy
         public readonly GuyIdleState Idle;
         public readonly GuyRunningState Running;
         public readonly GuyJumpingState Jumping;
+        public readonly GuyDuckingState Ducking;
 
-        internal GuyStates(GuyIdleState idle, GuyRunningState running, GuyJumpingState jumping)
+        internal GuyStates(GuyIdleState idle, GuyRunningState running, GuyJumpingState jumping, GuyDuckingState ducking)
         {
             Idle = idle;
             Running = running;
             Jumping = jumping;
+            Ducking = ducking;
         }
     }
 }
