@@ -15,8 +15,9 @@ namespace MonoGameTest.Guy.States
 
         public void Enter(Guy guy)
         {
-            guy.Physics.Velocity.Y = -22;
+            guy.Physics.SetYVelocity(-22);
         }
+
         public void Exit(Guy guy) { }
 
         public void Draw(Guy guy, SpriteBatch spriteBatch, GameTime gameTime, SpriteEffects spriteEffects)
@@ -35,18 +36,15 @@ namespace MonoGameTest.Guy.States
 
         public IGuyState Update(Guy guy)
         {
-            if (guy.Physics.OnGround)
+            if (!guy.Physics.IsOnGround)
             {
-                if (guy.Physics.Moving)
-                {
-                    return guy.States.Running;
-                }
-                else
-                {
-                    return guy.States.Idle;
-                }
+                return null;
             }
-            return null;
+            if (guy.Physics.IsMovingHorizontally)
+            {
+                return guy.States.Running;
+            }
+            return guy.States.Idle;
         }
     }
 }

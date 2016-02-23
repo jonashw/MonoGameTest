@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -49,12 +48,12 @@ namespace MonoGameTest.Guy.States
 
         private static void runFullSpeed(Guy guy)
         {
-            guy.Physics.Velocity.X = guy.FacingRight ? RunningSpeed : -RunningSpeed;
+            guy.Physics.SetXVelocity(guy.FacingRight ? RunningSpeed : -RunningSpeed);
         }
 
         public IGuyState Update(Guy guy)
         {
-            if (guy.Physics.Moving)
+            if (guy.Physics.IsMovingHorizontally)
             {
                 guy.Physics.Drag();
             }

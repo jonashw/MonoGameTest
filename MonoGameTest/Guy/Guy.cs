@@ -14,16 +14,16 @@ namespace MonoGameTest.Guy
         private IGuyState _state;
         private readonly ILogger _logger;
 
-        public Guy(Vector2 position, Texture2D idleSprite, Texture2D jumpingSprite, Texture2D runningSprite, ILogger logger)
+        public Guy(Vector2 position, Texture2D idleTexture, Texture2D jumpingTexture, Texture2D runningTexture, ILogger logger)
         {
-            const int width = 500;
-            const int height = 667;
+            const int spriteWidth = 500;
+            const int spriteHeight = 667;
             const float scale = 0.5f;
-            Physics = new GuyPhysics(position, new Vector2(0,0), logger);
+            Physics = new GuyPhysics(position, new Vector2(0,0), (int) (spriteWidth*scale), (int) (spriteHeight*scale), logger);
             States = new GuyStates(
-                new GuyIdleState(new EasySprite(idleSprite, width, height, scale)),
-                new GuyRunningState(new EasySpriteAnimation(runningSprite, width, height, 6, 2, 0.08f, scale)),
-                new GuyJumpingState(new EasySprite(jumpingSprite, width, height, scale)));
+                new GuyIdleState(new EasySprite(idleTexture, spriteWidth, spriteHeight, scale)),
+                new GuyRunningState(new EasySpriteAnimation(runningTexture, spriteWidth, spriteHeight, 6, 2, 0.08f, scale)),
+                new GuyJumpingState(new EasySprite(jumpingTexture, spriteWidth, spriteHeight, scale)));
             _state = States.Idle;
             _logger = logger;
         }
