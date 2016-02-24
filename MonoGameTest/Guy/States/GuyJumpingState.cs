@@ -27,6 +27,18 @@ namespace MonoGameTest.Guy.States
 
         public IGuyState Update(Guy guy, KeyboardState keyboardState)
         {
+            var maybeDirection = guy.Physics.HorizontalMovementDirection;
+            if (maybeDirection.HasValue)
+            {
+                if (keyboardState.IsKeyDown(Keys.Right))
+                {
+                    guy.Facing = XDirection.Right;
+                } 
+                else if (keyboardState.IsKeyDown(Keys.Left))
+                {
+                    guy.Facing = XDirection.Left;
+                }
+            }
             if (!guy.Physics.IsOnGround)
             {
                 return null;
