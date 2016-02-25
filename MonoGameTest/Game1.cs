@@ -1,6 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameTest.Controls;
+using MonoGameTest.Controls.AI;
 using MonoGameTest.Guy;
 using MonoGameTest.Logging;
 
@@ -14,6 +18,9 @@ namespace MonoGameTest
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Guy.Guy _guy;
+        private readonly CpuKeyboardControls _cpuKeyboard;
+        private readonly HumanKeyboardControls _humanKeyboard;
+        private bool _useCpuKeyboard;
 
         public Game1()
         {
@@ -24,6 +31,21 @@ namespace MonoGameTest
                 PreferredBackBufferHeight = 720
             };
             Window.AllowUserResizing = true;
+
+            _cpuKeyboard = new CpuKeyboardControls(new []
+            {
+                new KeyPress(Keys.Right, TimeSpan.FromMilliseconds(900)), 
+                new KeyPress(Keys.Left,  TimeSpan.FromMilliseconds(900)) 
+            }, true);
+
+            _humanKeyboard = new HumanKeyboardControls();
+        }
+
+        private IKeyboardControls getKeyboardControls()
+        {
+            return _useCpuKeyboard
+                ? (IKeyboardControls) _cpuKeyboard
+                : _humanKeyboard;
         }
 
         /// <summary>
@@ -74,6 +96,10 @@ namespace MonoGameTest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            {
+                _useCpuKeyboard = !_useCpuKeyboard;
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
@@ -81,7 +107,7 @@ namespace MonoGameTest
             }
 
             //
-            _guy.Update(gameTime, Keyboard.GetState());
+            _guy.Update(gameTime, getKeyboardControls().GetState(gameTime));
             keepGuyOnScreen();
             //
 
