@@ -55,9 +55,14 @@
   <ItemGroup>
     <Compile Include="EasySprite.cs" />
     <Compile Include="EasySpriteAnimation.cs" />
+    <Compile Include="EasyTimer.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Guy\Guy.cs" />
+    <Compile Include="Guy\GuyFactory.cs" />
     <Compile Include="Guy\GuyPhysics.cs" />
+    <Compile Include="Guy\States\GuyCannonballCrashRecoveryState.cs" />
+    <Compile Include="Guy\States\GuyCannonballCrashState.cs" />
+    <Compile Include="Guy\States\GuyCannonballState.cs" />
     <Compile Include="Guy\States\GuyDuckingState.cs" />
     <Compile Include="Guy\States\GuyIdleState.cs" />
     <Compile Include="Guy\States\GuyJumpingState.cs" />

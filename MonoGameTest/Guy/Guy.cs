@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGameTest.Guy.States;
 using MonoGameTest.Logging;
 
 namespace MonoGameTest.Guy
@@ -14,20 +13,11 @@ namespace MonoGameTest.Guy
         private IGuyState _state;
         private readonly ILogger _logger;
 
-        public Guy(Vector2 position, Texture2D idleTexture, Texture2D jumpingTexture, Texture2D runningTexture, Texture2D slidingTexture, Texture2D duckingTexture, ILogger logger)
+        internal Guy(GuyPhysics physics, GuyStates states, ILogger logger)
         {
-            const int spriteWidth = 500;
-            const int spriteHeight = 667;
-            const float scale = 0.5f;
-            Physics = new GuyPhysics(position, new Vector2(0,0), (int) (spriteWidth*scale), (int) (spriteHeight*scale), logger);
-            States = new GuyStates(
-                new GuyIdleState(new EasySprite(idleTexture, spriteWidth, spriteHeight, scale)),
-                new GuyRunningState(
-                    new EasySpriteAnimation(runningTexture, spriteWidth, spriteHeight, 6, 2, 0.08f, scale),
-                    new EasySprite(slidingTexture, spriteWidth, spriteHeight, scale)),
-                new GuyJumpingState(new EasySprite(jumpingTexture, spriteWidth, spriteHeight, scale)),
-                new GuyDuckingState(new EasySprite(duckingTexture, spriteWidth, spriteHeight, scale)));
-            _state = States.Idle;
+            Physics = physics;
+            States = states;
+            _state = states.Idle;
             _logger = logger;
         }
 
@@ -44,14 +34,14 @@ namespace MonoGameTest.Guy
 
         public void Update(GameTime gameTime, KeyboardState keyboardState)
         {
-            var maybeNewState = _state.Update(this, keyboardState);
+            var maybeNewState = _state.Update(this, keyboardState, gameTime);
             Physics.Update();
             if (maybeNewState == null)
             {
                 return;
             }
             _state.Exit(this);
-            maybeNewState.Enter(this);
+            maybeNewState.Enter(this, gameTime);
             _logger.Log(string.Format("Transitioning from {0} to {1}", _state.Name, maybeNewState.Name));
             _state = maybeNewState;
         }

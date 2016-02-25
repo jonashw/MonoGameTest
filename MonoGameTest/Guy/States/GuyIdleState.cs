@@ -12,14 +12,14 @@ namespace MonoGameTest.Guy.States
         {
             _sprite = sprite;
         }
-        public void Enter(Guy guy) { }
+        public void Enter(Guy guy, GameTime gameTime) { }
         public void Exit(Guy guy) { }
         public void Draw(Guy guy, SpriteBatch spriteBatch, GameTime gameTime, SpriteEffects spriteEffects)
         {
             _sprite.Draw(spriteBatch, guy.Physics.Position, spriteEffects);
         }
 
-        public IGuyState Update(Guy guy, KeyboardState keyboardState)
+        public IGuyState Update(Guy guy, KeyboardState keyboardState, GameTime gameTime)
         {
             if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.Space))
             {

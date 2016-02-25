@@ -12,13 +12,26 @@ namespace MonoGameTest.Guy
         public readonly GuyRunningState Running;
         public readonly GuyJumpingState Jumping;
         public readonly GuyDuckingState Ducking;
+        public readonly GuyCannonballState Cannonball;
+        public readonly GuyCannonballCrashState CannonballCrash;
+        public readonly GuyCannonballCrashRecoveryState CannonballCrashRecovery;
 
-        internal GuyStates(GuyIdleState idle, GuyRunningState running, GuyJumpingState jumping, GuyDuckingState ducking)
+        internal GuyStates(
+            GuyIdleState idle,
+            GuyRunningState running,
+            GuyJumpingState jumping,
+            GuyDuckingState ducking,
+            GuyCannonballState cannonball,
+            GuyCannonballCrashState cannonballCrash,
+            GuyCannonballCrashRecoveryState cannonballCrashRecovery)
         {
             Idle = idle;
             Running = running;
             Jumping = jumping;
             Ducking = ducking;
+            Cannonball = cannonball;
+            CannonballCrash = cannonballCrash;
+            CannonballCrashRecovery = cannonballCrashRecovery;
         }
     }
 }

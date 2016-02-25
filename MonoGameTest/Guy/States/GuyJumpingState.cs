@@ -13,7 +13,7 @@ namespace MonoGameTest.Guy.States
             _sprite = sprite;
         }
 
-        public void Enter(Guy guy)
+        public void Enter(Guy guy, GameTime gameTime)
         {
             guy.Physics.SetYVelocity(-22);
         }
@@ -25,7 +25,7 @@ namespace MonoGameTest.Guy.States
             _sprite.Draw(spriteBatch, guy.Physics.Position, spriteEffects);
         }
 
-        public IGuyState Update(Guy guy, KeyboardState keyboardState)
+        public IGuyState Update(Guy guy, KeyboardState keyboardState, GameTime gameTime)
         {
             var maybeDirection = guy.Physics.HorizontalMovementDirection;
             if (maybeDirection.HasValue)
@@ -38,6 +38,10 @@ namespace MonoGameTest.Guy.States
                 {
                     guy.Facing = XDirection.Left;
                 }
+            }
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                return guy.States.Cannonball;
             }
             if (!guy.Physics.IsOnGround)
             {

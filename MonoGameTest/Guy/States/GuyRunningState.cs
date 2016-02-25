@@ -16,7 +16,7 @@ namespace MonoGameTest.Guy.States
             _slidingSprite = slidingSprite;
         }
 
-        public void Enter(Guy guy)
+        public void Enter(Guy guy, GameTime gameTime)
         {
             _runningAnimation.Reset();
             impulse(guy);
@@ -30,17 +30,17 @@ namespace MonoGameTest.Guy.States
         public void Draw(Guy guy, SpriteBatch spriteBatch, GameTime gameTime, SpriteEffects spriteEffects)
         {
             var maybeXDirection = guy.Physics.HorizontalMovementDirection;
-            if (maybeXDirection.HasValue && maybeXDirection.Value == guy.Facing)
+            if (!maybeXDirection.HasValue || maybeXDirection == guy.Facing)
             {
                 _runningAnimation.Draw(spriteBatch, guy.Physics.Position, gameTime, spriteEffects);
             }
-            else
+            else if(maybeXDirection.Value != guy.Facing)
             {
                 _slidingSprite.Draw(spriteBatch, guy.Physics.Position, spriteEffects);
             }
         }
 
-        public IGuyState Update(Guy guy, KeyboardState keyboardState)
+        public IGuyState Update(Guy guy, KeyboardState keyboardState, GameTime gameTime)
         {
             if (keyboardState.IsKeyDown(Keys.Down))
             {

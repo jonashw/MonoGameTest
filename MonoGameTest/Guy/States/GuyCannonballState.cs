@@ -4,20 +4,24 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoGameTest.Guy.States
 {
-    internal class GuyDuckingState : IGuyState
+    internal class GuyCannonballState : IGuyState
     {
         private readonly EasySprite _sprite;
 
-        public GuyDuckingState(EasySprite sprite)
+        public GuyCannonballState(EasySprite sprite)
         {
             _sprite = sprite;
         }
 
         public string Name
         {
-            get { return "Ducking"; }
+            get { return "Cannonball"; }
         }
-        public void Enter(Guy guy, GameTime gameTime) { }
+
+        public void Enter(Guy guy, GameTime gameTime)
+        {
+            guy.Physics.SetYVelocity(5);
+        }
 
         public void Exit(Guy guy) { }
 
@@ -28,17 +32,15 @@ namespace MonoGameTest.Guy.States
 
         public IGuyState Update(Guy guy, KeyboardState keyboardState, GameTime gameTime)
         {
-            if (guy.Physics.IsMovingHorizontally)
+            if (guy.Physics.IsOnGround)
             {
-                guy.Physics.StepDecelerate();
+                return guy.States.CannonballCrash;
             }
-            if (keyboardState.IsKeyDown(Keys.Down))
+            if (keyboardState.IsKeyDown(Keys.Up))
             {
-                return null;
+                return guy.States.Jumping;
             }
-            return guy.Physics.IsMovingHorizontally
-                ? (IGuyState) guy.States.Running
-                : guy.States.Idle;
+            return null;
         }
     }
 }

@@ -8,16 +8,16 @@ namespace MonoGameTest.Guy
     {
         public Vector2 Position;
         private Vector2 _velocity;
-        private readonly int _width; 
-        private readonly int _height; 
+        public readonly int Width; 
+        public readonly int Height; 
         private readonly ILogger _logger;
 
         public GuyPhysics(Vector2 position, Vector2 velocity, int width, int height, ILogger logger)
         {
             Position = position;
             _velocity = velocity;
-            _width = width;
-            _height = height;
+            Width = width;
+            Height = height;
             _logger = logger;
         }
 
@@ -25,8 +25,8 @@ namespace MonoGameTest.Guy
         {
             Position.X = Position.X + _velocity.X;
             Position.Y = Math.Min(Position.Y + _velocity.Y, Guy.ZeroAltitude); //Keep Guy above ground.
-            _logger.Log(string.Format("Position.X = {0}; Position.Y = {1}", Position.X, Position.Y));
-            _logger.Log(string.Format("Velocity.X = {0}; Velocity.Y = {1}", _velocity.X, _velocity.Y));
+            //_logger.Log(string.Format("Position.X = {0}; Position.Y = {1}", Position.X, Position.Y));
+            //_logger.Log(string.Format("Velocity.X = {0}; Velocity.Y = {1}", _velocity.X, _velocity.Y));
 
             if (Position.Y >= Guy.ZeroAltitude)
             {
@@ -34,10 +34,12 @@ namespace MonoGameTest.Guy
             }
 
             var newYVelocity = _velocity.Y + 1; //Acceleration due to gravity
+            /*
             _logger.Log(string.Format(
                 "Guy has upward velocity (V0={0}).  Applying downward acceleration. (V1={1})",
                 _velocity.Y,
                 newYVelocity));
+            */
             _velocity.Y = newYVelocity;
         }
 
@@ -107,6 +109,11 @@ namespace MonoGameTest.Guy
         public void SetYVelocity(int v)
         {
             _velocity.Y = v;
+        }
+
+        public void Stop()
+        {
+            _velocity.X = 0;
         }
     }
 }

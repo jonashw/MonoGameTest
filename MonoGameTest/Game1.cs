@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameTest.Guy;
 using MonoGameTest.Logging;
 
 namespace MonoGameTest
@@ -50,13 +51,9 @@ namespace MonoGameTest
 
             //
             var cb = Window.ClientBounds;
-            _guy = new Guy.Guy(
-                new Vector2(cb.Width/2, cb.Height), 
-                Content.Load<Texture2D>("Sprite-Idle"),
-                Content.Load<Texture2D>("Sprite-Jumping"),
-                Content.Load<Texture2D>("Sprite-Running"),
-                Content.Load<Texture2D>("Sprite-Sliding"),
-                Content.Load<Texture2D>("Sprite-Ducking"),
+            _guy = GuyFactory.Create(
+                new Vector2(cb.Width/2f, cb.Height),
+                Content,
                 new DebugLogger());
             //
         }
@@ -85,9 +82,23 @@ namespace MonoGameTest
 
             //
             _guy.Update(gameTime, Keyboard.GetState());
+            keepGuyOnScreen();
             //
 
             base.Update(gameTime);
+        }
+
+        private void keepGuyOnScreen()
+        {
+            //Make the level wrap around, horizontally.
+            if (_guy.Physics.Position.X < 0)
+            {
+                _guy.Physics.Position.X = 1280 + _guy.Physics.Width;
+            }
+            if (_guy.Physics.Position.X > 1280 + _guy.Physics.Width)
+            {
+                _guy.Physics.Position.X = 0;
+            }
         }
 
         /// <summary>
@@ -96,7 +107,7 @@ namespace MonoGameTest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(CustomColors.Teal);
 
             //
             spriteBatch.Begin();
@@ -106,5 +117,13 @@ namespace MonoGameTest
 
             base.Draw(gameTime);
         }
+    }
+
+    public static class CustomColors
+    {
+        public static readonly Color Teal = new Color(38, 165, 153);
+        public static readonly Color TealDark = new Color(28,124,114);
+        public static readonly Color Blue = new Color(85,102,194);
+        public static readonly Color BlueDark = new Color(56,72,153);
     }
 }

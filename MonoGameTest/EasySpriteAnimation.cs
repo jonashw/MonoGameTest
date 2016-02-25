@@ -13,8 +13,9 @@ namespace MonoGameTest
         private int _frameIndex;
         private readonly float _frameDuration;
         private readonly Vector2 _scale;
+        private readonly bool _canLoop;
 
-        public EasySpriteAnimation(Texture2D spriteSheet, int frameWidth, int frameHeight, int frameColumnCount, int frameRowCount, float frameDuration, float scale = 1f)
+        public EasySpriteAnimation(Texture2D spriteSheet, int frameWidth, int frameHeight, int frameColumnCount, int frameRowCount, float frameDuration, float scale = 1f, bool canLoop = true)
         {
             _spriteSheet = spriteSheet;
             _origin = new Vector2(frameWidth, frameHeight);
@@ -28,6 +29,7 @@ namespace MonoGameTest
                 .ToArray();
             _frameDuration = frameDuration;
             _scale = new Vector2(scale, scale);
+            _canLoop = canLoop;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, GameTime gameTime, SpriteEffects spriteEffects)
@@ -42,7 +44,7 @@ namespace MonoGameTest
 
             if (_frameIndex >= _frameRectangles.Length)
             {
-                _frameIndex = 0;
+                _frameIndex = _canLoop ? 0 : _frameRectangles.Length - 1;
             }
 
             spriteBatch.Draw(
