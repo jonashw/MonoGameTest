@@ -17,42 +17,32 @@ namespace MonoGameTest.Guy
             var physics = new GuyPhysics(
                 position,
                 new Vector2(0,0),
-                (int) (spriteWidth*scale),
-                (int) (spriteHeight*scale),
+                spriteWidth,
+                spriteHeight,
                 logger);
 
             var states = new GuyStates(
                 new GuyIdleState(
-                    new EasySprite(
-                        content.Load<Texture2D>("Sprite-Idle"),
-                        spriteWidth, spriteHeight, scale)),
+                    new EasySprite(content.Load<Texture2D>("Sprite-Idle"))),
                 new GuyRunningState(
                     new EasySpriteAnimation(
                         content.Load<Texture2D>("Sprite-Running"),
-                        spriteWidth, spriteHeight, 6, 2, 0.08f, scale),
-                    new EasySprite(
-                        content.Load<Texture2D>("Sprite-Sliding"),
-                        spriteWidth, spriteHeight, scale)),
+                        6, 2, 0.08f),
+                    new EasySprite(content.Load<Texture2D>("Sprite-Sliding"))),
                 new GuyJumpingState(
-                    new EasySprite(
-                        content.Load<Texture2D>("Sprite-Jumping"),
-                        spriteWidth, spriteHeight, scale)),
+                    new EasySprite(content.Load<Texture2D>("Sprite-Jumping"))),
                 new GuyDuckingState(
-                    new EasySprite(
-                        content.Load<Texture2D>("Sprite-Ducking"),
-                        spriteWidth, spriteHeight, scale)),
+                    new EasySprite(content.Load<Texture2D>("Sprite-Ducking"))),
                 new GuyCannonballState(
-                    new EasySprite(
-                        content.Load<Texture2D>("Sprite-Cannonball"),
-                        spriteWidth, spriteHeight, scale)),
+                    new EasySprite(content.Load<Texture2D>("Sprite-Cannonball"))),
                 new GuyCannonballCrashState(
                     new EasySpriteAnimation(
                         content.Load<Texture2D>("Sprite-CannonballCrash"),
-                        spriteWidth, spriteHeight, 2, 1, 0.2f, scale, false)),
+                        2, 1, 0.2f, canLoop: false)),
                 new GuyCannonballCrashRecoveryState(
                     new EasySpriteAnimation(
                         content.Load<Texture2D>("Sprite-CannonballCrashRecovery"),
-                        spriteWidth, spriteHeight, 6, 1, 0.08f, scale, false)));
+                        6, 1, 0.08f, canLoop: false)));
 
             return new Guy(physics, states, logger);
         }

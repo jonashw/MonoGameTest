@@ -5,7 +5,7 @@ using MonoGameTest.Logging;
 
 namespace MonoGameTest.Guy
 {
-    public class Guy
+    public class Guy : IEntity
     {
         public readonly GuyPhysics Physics;
         internal readonly GuyStates States;
@@ -44,6 +44,20 @@ namespace MonoGameTest.Guy
             maybeNewState.Enter(this, gameTime);
             _logger.Log(string.Format("Transitioning from {0} to {1}", _state.Name, maybeNewState.Name));
             _state = maybeNewState;
+            keepOnScreen();
+        }
+
+        private void keepOnScreen()
+        {
+            //Make the level wrap around, horizontally.
+            if (Physics.Position.X < 0)
+            {
+                Physics.Position.X = 1280 + Physics.Width;
+            }
+            if (Physics.Position.X > 1280 + Physics.Width)
+            {
+                Physics.Position.X = 0;
+            }
         }
     }
 }

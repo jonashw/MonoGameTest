@@ -101,3 +101,9 @@
 /processorParam:TextureFormat=Color
 /build:Sprite-CannonballCrashRecovery.png
 
+#begin Consolas.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Consolas.spritefont
+

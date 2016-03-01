@@ -12,12 +12,13 @@ namespace MonoGameTest
         private readonly Rectangle[] _frameRectangles;
         private int _frameIndex;
         private readonly float _frameDuration;
-        private readonly Vector2 _scale;
         private readonly bool _canLoop;
 
-        public EasySpriteAnimation(Texture2D spriteSheet, int frameWidth, int frameHeight, int frameColumnCount, int frameRowCount, float frameDuration, float scale = 1f, bool canLoop = true)
+        public EasySpriteAnimation(Texture2D spriteSheet, int frameColumnCount, int frameRowCount, float frameDuration, bool canLoop = true)
         {
             _spriteSheet = spriteSheet;
+            var frameWidth = spriteSheet.Width/frameColumnCount;
+            var frameHeight = spriteSheet.Height/frameRowCount;
             _origin = new Vector2(frameWidth, frameHeight);
             _frameRectangles = Enumerable.Range(0, frameRowCount)
                 .SelectMany(rowIndex => Enumerable.Range(0, frameColumnCount)
@@ -28,7 +29,6 @@ namespace MonoGameTest
                         frameHeight)))
                 .ToArray();
             _frameDuration = frameDuration;
-            _scale = new Vector2(scale, scale);
             _canLoop = canLoop;
         }
 
@@ -54,7 +54,7 @@ namespace MonoGameTest
                 Color.White,
                 0.0f,
                 _origin,
-                _scale,
+                1f,
                 spriteEffects,
                 0.0f);
         }

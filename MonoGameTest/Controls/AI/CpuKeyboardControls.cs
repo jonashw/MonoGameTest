@@ -5,11 +5,13 @@ namespace MonoGameTest.Controls.AI
 {
     public class CpuKeyboardControls : IKeyboardControls
     {
+        public readonly string Name;
         private readonly KeyPress[] _keyPresses;
         private readonly bool _canLoop;
 
-        public CpuKeyboardControls(KeyPress[] keyPresses, bool canLoop)
+        public CpuKeyboardControls(string name, KeyPress[] keyPresses, bool canLoop)
         {
+            Name = name;
             _keyPresses = keyPresses;
             _canLoop = canLoop;
         }

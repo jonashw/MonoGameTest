@@ -53,10 +53,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CircularArray.cs" />
     <Compile Include="Controls\AI\CpuKeyboardControls.cs" />
+    <Compile Include="Controls\AI\CpuKeyboardControlsFactory.cs" />
     <Compile Include="Controls\AI\KeyPress.cs" />
     <Compile Include="Controls\HumanKeyboardControls.cs" />
     <Compile Include="Controls\IKeyboardControls.cs" />
+    <Compile Include="Controls\KeyboardEventRegistry.cs" />
+    <Compile Include="CpuGuyDecorator.cs" />
+    <Compile Include="CustomColors.cs" />
     <Compile Include="EasySprite.cs" />
     <Compile Include="EasySpriteAnimation.cs" />
     <Compile Include="EasyTimer.cs" />
@@ -74,6 +79,7 @@
     <Compile Include="Guy\States\GuyRunningState.cs" />
     <Compile Include="Guy\GuyStates.cs" />
     <Compile Include="Guy\IGuyState.cs" />
+    <Compile Include="IEntity.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\DebugLogger.cs" />
     <Compile Include="Program.cs" />
