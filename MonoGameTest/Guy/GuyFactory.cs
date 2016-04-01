@@ -23,25 +23,25 @@ namespace MonoGameTest.Guy
 
             var states = new GuyStates(
                 new GuyIdleState(
-                    new EasySprite(content.Load<Texture2D>("Sprite-Idle"))),
+                    new EasySprite(content.Load<Texture2D>("Guy-Idle"))),
                 new GuyRunningState(
                     new EasySpriteAnimation(
-                        content.Load<Texture2D>("Sprite-Running"),
+                        content.Load<Texture2D>("Guy-Running"),
                         6, 2, 0.08f),
-                    new EasySprite(content.Load<Texture2D>("Sprite-Sliding"))),
+                    new EasySprite(content.Load<Texture2D>("Guy-Sliding"))),
                 new GuyJumpingState(
-                    new EasySprite(content.Load<Texture2D>("Sprite-Jumping"))),
+                    new EasySprite(content.Load<Texture2D>("Guy-Jumping"))),
                 new GuyDuckingState(
-                    new EasySprite(content.Load<Texture2D>("Sprite-Ducking"))),
+                    new EasySprite(content.Load<Texture2D>("Guy-Ducking"))),
                 new GuyCannonballState(
-                    new EasySprite(content.Load<Texture2D>("Sprite-Cannonball"))),
+                    new EasySprite(content.Load<Texture2D>("Guy-Cannonball"))),
                 new GuyCannonballCrashState(
                     new EasySpriteAnimation(
-                        content.Load<Texture2D>("Sprite-CannonballCrash"),
+                        content.Load<Texture2D>("Guy-CannonballCrash"),
                         2, 1, 0.2f, canLoop: false)),
                 new GuyCannonballCrashRecoveryState(
                     new EasySpriteAnimation(
-                        content.Load<Texture2D>("Sprite-CannonballCrashRecovery"),
+                        content.Load<Texture2D>("Guy-CannonballCrashRecovery"),
                         6, 1, 0.08f, canLoop: false)));
 
             return new Guy(physics, states, logger);
