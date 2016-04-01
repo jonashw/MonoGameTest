@@ -19,7 +19,8 @@ namespace MonoGameTest
             _font = font;
             _controlPatterns = new CircularArray<CpuKeyboardControls>(
                 CpuKeyboardControlsFactory.RunBackAndForth(),
-                CpuKeyboardControlsFactory.Cannonball());
+                CpuKeyboardControlsFactory.Cannonball(),
+                CpuKeyboardControlsFactory.JumpAndSquat());
             KeyboardEventRegistry.OnKeyDown(Keys.Left, OnLeft);
             KeyboardEventRegistry.OnKeyDown(Keys.Right, OnRight);
         }
