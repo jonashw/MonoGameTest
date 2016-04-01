@@ -36,10 +36,6 @@ namespace MonoGameTest.Guy.States
             {
                 return guy.States.CannonballCrash;
             }
-            if (keyboardState.IsKeyDown(Keys.Up))
-            {
-                return guy.States.Jumping;
-            }
             return null;
         }
     }
