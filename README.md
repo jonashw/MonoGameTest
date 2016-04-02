@@ -8,6 +8,7 @@ The character is implemented as a Finite State Machine with the following states
 - Running
 - Sliding
 - Jumping
+- "Hooray"
 - Cannonball
 - Cannonball "Crash"
 - Cannonball "Crash Recovery"
