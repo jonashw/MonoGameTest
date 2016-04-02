@@ -74,6 +74,7 @@
     <Compile Include="Guy\States\GuyCannonballCrashState.cs" />
     <Compile Include="Guy\States\GuyCannonballState.cs" />
     <Compile Include="Guy\States\GuyDuckingState.cs" />
+    <Compile Include="Guy\States\GuyHoorayState.cs" />
     <Compile Include="Guy\States\GuyIdleState.cs" />
     <Compile Include="Guy\States\GuyJumpingState.cs" />
     <Compile Include="Guy\States\GuyRunningState.cs" />

@@ -11,6 +11,7 @@ namespace MonoGameTest.Guy
         public readonly GuyIdleState Idle;
         public readonly GuyRunningState Running;
         public readonly GuyJumpingState Jumping;
+        public readonly GuyHoorayState Hooray;
         public readonly GuyDuckingState Ducking;
         public readonly GuyCannonballState Cannonball;
         public readonly GuyCannonballCrashState CannonballCrash;
@@ -20,6 +21,7 @@ namespace MonoGameTest.Guy
             GuyIdleState idle,
             GuyRunningState running,
             GuyJumpingState jumping,
+            GuyHoorayState hooray,
             GuyDuckingState ducking,
             GuyCannonballState cannonball,
             GuyCannonballCrashState cannonballCrash,
@@ -28,6 +30,7 @@ namespace MonoGameTest.Guy
             Idle = idle;
             Running = running;
             Jumping = jumping;
+            Hooray = hooray;
             Ducking = ducking;
             Cannonball = cannonball;
             CannonballCrash = cannonballCrash;

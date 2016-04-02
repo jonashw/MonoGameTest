@@ -31,6 +31,8 @@ namespace MonoGameTest.Guy
                     new EasySprite(content.Load<Texture2D>("Guy-Sliding"))),
                 new GuyJumpingState(
                     new EasySprite(content.Load<Texture2D>("Guy-Jumping"))),
+                new GuyHoorayState(
+                    new EasySprite(content.Load<Texture2D>("Guy-Hooray"))),
                 new GuyDuckingState(
                     new EasySprite(content.Load<Texture2D>("Guy-Ducking"))),
                 new GuyCannonballState(
