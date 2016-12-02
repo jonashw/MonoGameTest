@@ -6,7 +6,7 @@ namespace MonoGameTest.Guy.States
 {
     internal class GuyIdleState : IGuyState
     {
-        public string Name { get { return "Idle"; } }
+        public string Name => "Idle";
         private readonly EasySprite _sprite;
         public GuyIdleState(EasySprite sprite)
         {

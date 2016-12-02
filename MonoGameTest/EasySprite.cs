@@ -11,7 +11,7 @@ namespace MonoGameTest
         public EasySprite(Texture2D texture)
         {
             _texture = texture;
-            _origin = new Vector2(texture.Width, texture.Height);
+            _origin = new Vector2(0, 0);
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, SpriteEffects spriteEffects)

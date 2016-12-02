@@ -12,19 +12,20 @@ namespace MonoGameTest.Guy
         public XDirection Facing = XDirection.Right;
         private IGuyState _state;
         private readonly ILogger _logger;
+        public readonly BoundingBox BoundingBox;
 
-        internal Guy(GuyPhysics physics, GuyStates states, ILogger logger)
+        internal Guy(GuyPhysics physics, GuyStates states, ILogger logger, BoundingBox boundingBox)
         {
             Physics = physics;
             States = states;
             _state = states.Idle;
             _logger = logger;
+            BoundingBox = boundingBox;
         }
-
-        public const int ZeroAltitude = 720;
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            BoundingBox.Draw(spriteBatch, Physics.Position);
             _state.Draw(
                 this,
                 spriteBatch,
@@ -42,22 +43,8 @@ namespace MonoGameTest.Guy
             }
             _state.Exit(this);
             maybeNewState.Enter(this, gameTime);
-            _logger.Log(string.Format("Transitioning from {0} to {1}", _state.Name, maybeNewState.Name));
+            _logger.Log($"Transitioning from {_state.Name} to {maybeNewState.Name}");
             _state = maybeNewState;
-            keepOnScreen();
-        }
-
-        private void keepOnScreen()
-        {
-            //Make the level wrap around, horizontally.
-            if (Physics.Position.X < 0)
-            {
-                Physics.Position.X = 1280 + Physics.Width;
-            }
-            if (Physics.Position.X > 1280 + Physics.Width)
-            {
-                Physics.Position.X = 0;
-            }
         }
     }
 }

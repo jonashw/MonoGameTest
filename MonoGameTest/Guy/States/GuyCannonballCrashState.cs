@@ -15,10 +15,7 @@ namespace MonoGameTest.Guy.States
             _animation = animation;
         }
 
-        public string Name
-        {
-            get { return "CannonballCrash"; }
-        }
+        public string Name => "CannonballCrash";
 
         public void Enter(Guy guy, GameTime gameTime)
         {

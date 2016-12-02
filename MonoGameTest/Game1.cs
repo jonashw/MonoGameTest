@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameTest.Controls;
@@ -9,23 +10,26 @@ namespace MonoGameTest
 {
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
         private Guy.Guy _guy;
         private CpuGuyDecorator _cpuGuyDecorator;
         private readonly HumanKeyboardControls _humanKeyboard;
         private bool _useCpuKeyboard;
         private SpriteFont _font;
+        private Camera _camera;
+        private CameraController _cameraController;
 
         public Game1()
         {
             Content.RootDirectory = "Content";
-            graphics = new GraphicsDeviceManager(this)
+            _graphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = 1280,
                 PreferredBackBufferHeight = 720
             };
             Window.AllowUserResizing = true;
+            IsMouseVisible = true;
 
             _humanKeyboard = new HumanKeyboardControls();
             KeyboardEventRegistry.OnKeyDown(Keys.Enter, () =>
@@ -40,18 +44,31 @@ namespace MonoGameTest
                 }
                 _useCpuKeyboard = !_useCpuKeyboard;
             });
+
+            KeyboardEventRegistry.OnKeyDown(Keys.B, () =>
+            {
+                _guy.BoundingBox.ShouldDraw = !_guy.BoundingBox.ShouldDraw;
+            });
         }
+
+        protected override void Initialize()
+        {
+            _camera = new Camera(GraphicsDevice.Viewport, position: new Vector2(0, -_graphics.PreferredBackBufferHeight/2f));
+            _cameraController = new CameraController(_camera);
+            base.Initialize();
+        } 
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //
             var cb = Window.ClientBounds;
             _guy = GuyFactory.Create(
-                new Vector2(cb.Width/2f, cb.Height),
+                GraphicsDevice,
                 Content,
-                new DebugLogger());
+                new DebugLogger(),
+                new Vector2(0,0));
             //
             _font = Content.Load<SpriteFont>("Consolas");
             _cpuGuyDecorator = new CpuGuyDecorator(_guy, _font);
@@ -60,8 +77,8 @@ namespace MonoGameTest
         protected override void Update(GameTime gameTime)
         {
             var keyboardState = Keyboard.GetState();
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                keyboardState.IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
+                || keyboardState.IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
@@ -76,6 +93,11 @@ namespace MonoGameTest
                 _guy.Update(gameTime, keyboardState);
             }
 
+
+            keepGuyOnCamera(_guy, _camera);
+
+            _cameraController.Update(keyboardState);
+
             base.Update(gameTime);
         }
 
@@ -85,25 +107,46 @@ namespace MonoGameTest
             GraphicsDevice.Clear(CustomColors.Teal);
 
             //
-            spriteBatch.Begin();
+            _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
             if (_useCpuKeyboard)
             {
-                _cpuGuyDecorator.Draw(spriteBatch, gameTime);
+                _cpuGuyDecorator.Draw(_spriteBatch, gameTime);
             }
             else
             {
-                _guy.Draw(spriteBatch,gameTime);
+                _guy.Draw(_spriteBatch, gameTime);
             }
-            spriteBatch.DrawString(
-                _font,
-                string.Format("Press Enter to toggle between Human/CPU controls.  (Currently using \"{0}\" controls)", _useCpuKeyboard ? "CPU" : "Human"),
-                new Vector2(5, 5),
+            _spriteBatch.DrawString(_font, $"Press Enter to toggle between Human/CPU controls.  (Currently using \"{(_useCpuKeyboard ? "CPU" : "Human")}\" controls)",
+                _camera.Position + new Vector2(5, 5),
                 Color.Black);
 
-            spriteBatch.End();
+            _spriteBatch.DrawString(_font, $"Press B to toggle drawing of bounding boxes.  (Currently {(_guy.BoundingBox.ShouldDraw ? "ON" : "OFF")})",
+                _camera.Position + new Vector2(5, 25),
+                Color.Black);
+
+            _spriteBatch.DrawString(_font, $"Use HJKL to manipulate the camera. Shift-R to reset. [z]oom, [p]osition, [r]otation. (Currently: {_cameraController.State})",
+                _camera.Position + new Vector2(5, 45),
+                Color.Black);
+
+            _spriteBatch.End();
             //
 
             base.Draw(gameTime);
+        }
+
+        private static void keepGuyOnCamera(Guy.Guy guy, Camera camera)
+        {
+            //Make the level wrap around, horizontally.
+            var cameraRect = camera.GetVisibleArea();
+            if (guy.Physics.Right < cameraRect.Left)
+            {
+                guy.Physics.Position.X = cameraRect.Right;
+            }
+            if (guy.Physics.Left > cameraRect.Right + 1)
+            {
+                //Wrap from the right to the left.
+                guy.Physics.Position.X = cameraRect.Left - guy.Physics.Width;
+            }
         }
     }
 }

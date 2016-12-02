@@ -6,7 +6,7 @@ namespace MonoGameTest.Guy.States
 {
     internal class GuyRunningState : IGuyState
     {
-        public string Name { get { return "Running"; } }
+        public string Name => "Running";
         private readonly EasySpriteAnimation _runningAnimation;
         private readonly EasySprite _slidingSprite;
         private const int RunningSpeed = 10;

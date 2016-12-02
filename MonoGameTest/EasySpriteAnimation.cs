@@ -19,7 +19,7 @@ namespace MonoGameTest
             _spriteSheet = spriteSheet;
             var frameWidth = spriteSheet.Width/frameColumnCount;
             var frameHeight = spriteSheet.Height/frameRowCount;
-            _origin = new Vector2(frameWidth, frameHeight);
+            _origin = new Vector2(0,0);
             _frameRectangles = Enumerable.Range(0, frameRowCount)
                 .SelectMany(rowIndex => Enumerable.Range(0, frameColumnCount)
                     .Select(colIndex => new Rectangle(

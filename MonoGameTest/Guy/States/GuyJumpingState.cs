@@ -7,7 +7,7 @@ namespace MonoGameTest.Guy.States
 {
     public class GuyJumpingState : IGuyState
     {
-        public string Name { get { return "Jumping"; } }
+        public string Name => "Jumping";
         private readonly EasySprite _sprite;
         private readonly EasyTimer _entryTimeout = new EasyTimer(TimeSpan.FromSeconds(0.25));
         public GuyJumpingState(EasySprite sprite)

@@ -18,6 +18,7 @@ namespace MonoGameTest
             Guy = guy;
             _font = font;
             _controlPatterns = new CircularArray<CpuKeyboardControls>(
+                CpuKeyboardControlsFactory.RunningCelebration(),
                 CpuKeyboardControlsFactory.RunBackAndForth(),
                 CpuKeyboardControlsFactory.Cannonball(),
                 CpuKeyboardControlsFactory.JumpAndSquat());

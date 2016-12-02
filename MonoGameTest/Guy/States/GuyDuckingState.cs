@@ -13,10 +13,7 @@ namespace MonoGameTest.Guy.States
             _sprite = sprite;
         }
 
-        public string Name
-        {
-            get { return "Ducking"; }
-        }
+        public string Name => "Ducking";
         public void Enter(Guy guy, GameTime gameTime) { }
 
         public void Exit(Guy guy) { }
